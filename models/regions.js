@@ -12,10 +12,6 @@ const schemaRegion = Schema({
   image: {
     type: Array,
   },
-  locations: {
-    type: Schema.Types.ObjectId,
-    ref: "locations",
-  },
 });
 
 module.exports = model("regions", schemaRegion);

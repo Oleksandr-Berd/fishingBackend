@@ -1,4 +1,4 @@
-// const locationModel = require("./locationModel");
+const locationsModel = require("./locations");
 const regionsModel = require("./regions");
 
-module.exports = { regionsModel };
+module.exports = { regionsModel, locationsModel };

@@ -59,10 +59,11 @@ class regionsController {
     results.results = regions.slice(startIndex, endIndex);
 
     res.paginatedResults = results;
+    console.log(regions);
     res.status(201).json({
       code: 200,
       message: "Successful success",
-      data: results,
+      data: regions,
       quantity: regions.length,
     });
   };
