@@ -7,7 +7,7 @@ const pathToEnv = path.join(__dirname, "..", "config", ".env");
 const dotenv = require("dotenv");
 // const asyncHandler = require("express-async-handler");
 dotenv.config({ path: pathToEnv });
-// const locKyivRouter = require("./routes/locKyiv");
+const locationsRouter = require("./routes/locationsRoutes");
 const regionsRouter = require("./routes/regionsRoutes");
 // const authRouter = require("./routes/authRouter");
 // const notFoundError = require("./middlewares/notFoundError");
@@ -26,7 +26,7 @@ app.use(cors({ origin: true }));
 
 // app.use("/", asyncHandler(authRouter));
 
-// app.use("/regions", locKyivRouter);
+app.use("/regions", locationsRouter);
 
 app.use("/", regionsRouter);
 

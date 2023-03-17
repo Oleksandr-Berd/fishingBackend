@@ -8,9 +8,9 @@ const schemaLocations = Schema({
   picture: Array,
   coordinates: Object,
   adress: String,
-  fishes: {
+  fish: {
     type: Array,
-    required: [true, "DB: there should be some fishes"],
+    required: [true, "DB: there should be some fish"],
   },
   fishingConditions: String,
   description: String,
@@ -21,4 +21,4 @@ const schemaLocations = Schema({
   },
 });
 
-module.exports = model("locations", schemaLocation);
+module.exports = model("locations", schemaLocations);
