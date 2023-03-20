@@ -9,24 +9,6 @@ const regionsImageDir = path.join(__dirname, "..", "public", "region");
 let regionsImageArray = [];
 
 class regionsController {
-  add = async (req, res) => {
-    const { name } = req.body;
-
-    if (!name) {
-      res.status(400);
-      throw new Error("Please provide all required fields");
-    }
-    const region = await regionModel.create({ ...req.body });
-
-    if (!region) {
-      res.status(400);
-      throw new Error("Unable to save in a data base");
-    }
-    res
-      .status(201)
-      .json({ code: 201, message: "Successful success", data: region });
-  };
-
   getAll = async (req, res) => {
     const region = await regionsModel.find({});
     if (!region) {
@@ -66,106 +48,6 @@ class regionsController {
       data: regions,
       quantity: regions.length,
     });
-  };
-
-  getOne = async (req, res) => {
-    const { id } = req.params;
-    const validId = isValidObjectId(id);
-    if (!validId) {
-      res.status(400);
-      throw new Error("Invalid id");
-    }
-    const region = await regionsModel.findById(id);
-    if (!region) {
-      res.status(400);
-      throw new Error("There is no location with this id");
-    }
-    res.status(200).json({
-      code: 200,
-      message: "Successful success",
-      data: region,
-    });
-  };
-
-  update = async (req, res) => {
-    const { id } = req.params;
-
-    const region = await regionsModel.findByIdAndUpdate(id, req.body);
-    if (!region) {
-      res.status(400);
-      throw new Error("There is no location with this id");
-    }
-    res.status(200).json({
-      code: 200,
-      message: "Successful success",
-      data: region,
-    });
-  };
-
-  updateDetail = async (req, res) => {
-    const { id } = req.params;
-    const region = await regionsModel.findByIdAndUpdate(id, req.body);
-    if (!region) {
-      res.status(400);
-      throw new Error("There is no location with this id");
-    }
-    res.status(200).json({
-      code: 200,
-      message: "Successful success",
-      data: region,
-    });
-  };
-
-  remove = async (req, res) => {
-    const { id } = req.params;
-    const region = await regionsModel.findByIdAndDelete(id);
-    if (!region) {
-      res.status(400);
-      throw new Error("There is no location with this id");
-    }
-    res.status(200).json({
-      code: 200,
-      message: "Successful success",
-      data: region,
-    });
-  };
-
-  addImageRegion = async (req, res) => {
-    const { path: tempUpload, originalname } = req.file;
-    const resultUpload = path.join(regionsImageDir, originalname);
-    const image = path.join("regions", originalname);
-    try {
-      await fs.rename(tempUpload, resultUpload);
-      const newPicture = {
-        name: req.body.name,
-        id: v4(),
-        image,
-      };
-      regionsImageArray.push(newPicture.image);
-      res.status(201).json({ message: "Successful success" });
-    } catch (error) {
-      await fs.unlink(tempUpload);
-      console.log(error.message);
-    }
-  };
-  updateImageRegion = async (req, res) => {
-    const { id } = req.params;
-    const regionsImage = await regionsModel.findByIdAndUpdate(id, {
-      image: regionsImageArray,
-    });
-    if (!regionsImage) {
-      res.status(400);
-      throw new Error("There is no location with this id");
-    }
-
-    res
-      .status(200)
-      .json({
-        code: 200,
-        message: "Successful success",
-        data: regionsImage,
-      })
-      .then((regionsImageArray = []));
   };
 }
 
