@@ -20,7 +20,7 @@ const multer = require("multer");
 
 app.use(cors({ origin: true }));
 
-// app.use("/public", express.static(path.join(__dirname, "/public")));
+app.use("/public", express.static(path.join(__dirname, "/public")));
 
 // app.use("/", addNewDataRouterKyiv);
 
