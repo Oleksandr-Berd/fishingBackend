@@ -13,3 +13,5 @@ app.listen(PORT, () => {
   connectDb();
   console.log(`Vsevolodych on server on port: ${PORT}`.bold.green.italic);
 });
+
+// "start": "cross-env NODE_ENV=production node server.js",
