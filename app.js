@@ -7,6 +7,7 @@ const pathToEnv = path.join(__dirname, "..", "config", ".env");
 const dotenv = require("dotenv");
 // const asyncHandler = require("express-async-handler");
 dotenv.config({ path: pathToEnv });
+const uploadCloud = require("./Middleware/uploadMiddleware");
 const locationsRouter = require("./routes/locationsRoutes");
 const regionsRouter = require("./routes/regionsRoutes");
 // const authRouter = require("./routes/authRouter");
@@ -17,11 +18,9 @@ let cors = require("cors");
 console.log(path.join(__dirname, "..", "/public"));
 const multer = require("multer");
 // const addNewDataRouterKyiv = require("./routes/addNewDataRouter");
-
 app.use(cors({ origin: true }));
-
-app.use("/public", express.static(path.join(__dirname, "..", "/public")));
-
+// app.use("/data/img_our_friend", express.static("./src/data/img_our_friend"));
+app.use("/data", express.static(path.join(__dirname, "..", "/data")));
 // app.use("/", addNewDataRouterKyiv);
 
 // app.use("/", asyncHandler(authRouter));

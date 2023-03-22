@@ -15,7 +15,7 @@ class regionsController {
       res.status(400);
       throw new Error("Unable to fetch the data");
     }
-    const regions = region.sort((a, b) => {
+    const resultsregions = region.sort((a, b) => {
       return a.name.localeCompare(b.name);
     });
     const page = parseInt(req.query.page);
@@ -24,7 +24,7 @@ class regionsController {
     const endIndex = page * limit;
 
     const results = {};
-    if (endIndex < regions.length) {
+    if (endIndex < resultsregions.length) {
       results.next = {
         page: page + 1,
         limit: limit,
@@ -38,15 +38,14 @@ class regionsController {
       };
     }
 
-    results.results = regions.slice(startIndex, endIndex);
+    results.results = resultsregions.slice(startIndex, endIndex);
 
     res.paginatedResults = results;
-    console.log(regions);
     res.status(201).json({
       code: 200,
       message: "Successful success",
-      data: regions,
-      quantity: regions.length,
+      data: results,
+      quantity: resultsregions.length,
     });
   };
 }
