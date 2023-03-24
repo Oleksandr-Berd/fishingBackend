@@ -51,8 +51,10 @@ class regionsController {
 
   addImage = async (req, res) => {
     const { path: tempUpload, originalname } = req.file;
+
     const resultUpload = path.join(regionsImageDir, originalname);
     const image = path.join("regions", originalname);
+    console.log("console", resultUpload);
     try {
       await fs.rename(tempUpload, resultUpload);
       const newPicture = {
@@ -66,6 +68,28 @@ class regionsController {
       await fs.unlink(tempUpload);
       console.log(error.message);
     }
+  };
+
+  addImageTest = async (req, res) => {
+    const { id } = req.params;
+    const image = req.body;
+    const data = !!req.file
+      ? { imageURL: req.file.path, ...image }
+      : { id, ...image };
+
+    const regionsImage = await regionsModel.findByIdAndUpdate(id, {
+      image: data.imageURL,
+    });
+    if (!regionsImage) {
+      res.status(400);
+      throw new Error("There is no location with this id");
+    }
+
+    res.status(200).json({
+      code: 200,
+      message: "Successful success",
+      data: regionsImage,
+    });
   };
 
   updateImage = async (req, res) => {
