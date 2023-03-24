@@ -15,12 +15,11 @@ const regionsRouter = require("./routes/regionsRoutes");
 // const errorHandler = require("./middlewares/errorHandler");
 require("colors");
 let cors = require("cors");
-console.log(path.join(__dirname, "..", "/public"));
 const multer = require("multer");
 // const addNewDataRouterKyiv = require("./routes/addNewDataRouter");
 app.use(cors({ origin: true }));
 // app.use("/data/img_our_friend", express.static("./src/data/img_our_friend"));
-app.use("/data", express.static(path.join(__dirname, "..", "/data")));
+app.use("/public", express.static(path.join(__dirname, "..", "/public")));
 // app.use("/", addNewDataRouterKyiv);
 
 // app.use("/", asyncHandler(authRouter));

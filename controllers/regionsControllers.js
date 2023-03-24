@@ -4,7 +4,7 @@ const path = require("path");
 const fs = require("fs/promises");
 const { v4 } = require("uuid");
 
-const regionsImageDir = path.join(__dirname, "..", "public", "region");
+const regionsImageDir = path.join(__dirname, "..", "public", "regions");
 
 let regionsImageArray = [];
 
@@ -46,6 +46,42 @@ class regionsController {
       message: "Successful success",
       data: results,
       quantity: resultsregions.length,
+    });
+  };
+
+  addImage = async (req, res) => {
+    const { path: tempUpload, originalname } = req.file;
+    const resultUpload = path.join(regionsImageDir, originalname);
+    const image = path.join("regions", originalname);
+    try {
+      await fs.rename(tempUpload, resultUpload);
+      const newPicture = {
+        name: req.body.name,
+        id: v4(),
+        image,
+      };
+      regionsImageArray.push(newPicture.image);
+      res.status(201).json({ message: "Successful success" });
+    } catch (error) {
+      await fs.unlink(tempUpload);
+      console.log(error.message);
+    }
+  };
+
+  updateImage = async (req, res) => {
+    const { id } = req.params;
+    const regionsImage = await regionsModel.findByIdAndUpdate(id, {
+      image: regionsImageArray,
+    });
+    if (!regionsImage) {
+      res.status(400);
+      throw new Error("There is no location with this id");
+    }
+
+    res.status(200).json({
+      code: 200,
+      message: "Successful success",
+      data: regionsImage,
     });
   };
 }
