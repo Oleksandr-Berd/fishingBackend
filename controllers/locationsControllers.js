@@ -25,36 +25,38 @@ class LocationsControllers {
   };
 
   getAll = async (req, res) => {
-    const locations = await locationsModel.find({});
+    const { locPath } = req.params;
+
+    const locations = await locationsModel.find({ region: locPath });
     if (!locations) {
       res.status(400);
       throw new Error("Unable to fetch the data");
     }
-    // const page = parseInt(req.query.page);
-    // const limit = parseInt(req.query.limit);
-    // const startIndex = (page - 1) * limit;
-    // const endIndex = page * limit;
+    const page = parseInt(req.query.page);
+    const limit = parseInt(req.query.limit);
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
 
-    // const results = {};
-    // if (endIndex < locations.length) {
-    //   results.next = {
-    //     page: page + 1,
-    //     limit: limit,
-    //   };
-    // }
-    // if (startIndex > 0) {
-    //   results.previous = {
-    //     page: page - 1,
-    //     limit: limit,
-    //   };
-    // }
+    const results = {};
+    if (endIndex < locations.length) {
+      results.next = {
+        page: page + 1,
+        limit: limit,
+      };
+    }
+    if (startIndex > 0) {
+      results.previous = {
+        page: page - 1,
+        limit: limit,
+      };
+    }
 
-    // results.results = locations.slice(startIndex, endIndex);
-    // res.paginatedResults = results;
+    results.results = locations.slice(startIndex, endIndex);
+    res.paginatedResults = results;
     res.status(201).json({
       code: 200,
       message: "Successful success",
-      data: locations,
+      data: results,
       quantity: locations.length,
     });
   };
@@ -74,7 +76,7 @@ class LocationsControllers {
     res.status(200).json({
       code: 200,
       message: "Successful success",
-      data: locKyiv,
+      data: location,
     });
   };
 
@@ -119,6 +121,30 @@ class LocationsControllers {
       code: 200,
       message: "Successful success",
       data: location,
+    });
+  };
+
+  addImage = async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    const image = req.body;
+
+    const data = !!req.file
+      ? { imageURL: req.file.path, ...image }
+      : { id, ...image };
+    console.log(data);
+    const locationImage = await locationsModel.findByIdAndUpdate(id, {
+      picture: data.imageURL,
+    });
+    if (!locationImage) {
+      res.status(400);
+      throw new Error("There is no location with this id");
+    }
+
+    res.status(200).json({
+      code: 200,
+      message: "Successful success",
+      data: locationImage,
     });
   };
 }

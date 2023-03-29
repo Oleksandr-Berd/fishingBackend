@@ -9,11 +9,7 @@ regionRouter.get("/regions/paginate", asyncHandler(regionsController.getAll));
 regionRouter.post(
   "/uploadImage/:id",
   uploadCloud.single("image"),
-  regionsController.addImageTest
-);
-regionRouter.patch(
-  "/uploadImage/:id",
-  asyncHandler(regionsController.updateImage)
+  regionsController.addImage
 );
 
 module.exports = regionRouter;

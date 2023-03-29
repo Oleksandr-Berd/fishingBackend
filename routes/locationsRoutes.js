@@ -1,5 +1,6 @@
 const express = require("express");
 const LocationsControllers = require("../controllers/locationsControllers");
+const uploadCloud = require("../Middleware/uploadMiddleware");
 // const auth = require("../middlewares/auth");
 const asyncHandler = require("express-async-handler");
 
@@ -25,6 +26,12 @@ locationsRouter.patch(
 locationsRouter.delete(
   "/locations/:locPath/:id",
   asyncHandler(LocationsControllers.remove)
+);
+
+locationsRouter.post(
+  "/uploadImage/:locPath/:id",
+  uploadCloud.single("image"),
+  LocationsControllers.addImage
 );
 
 module.exports = locationsRouter;
