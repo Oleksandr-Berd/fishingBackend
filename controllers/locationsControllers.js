@@ -3,12 +3,7 @@ const { isValidObjectId } = require("mongoose");
 
 class LocationsControllers {
   add = async (req, res) => {
-    const {
-      title,
-
-      fish,
-    } = req.body;
-
+    const { title, fish } = req.body;
     if (!title || !fish) {
       res.status(400);
       throw new Error("Please provide all required fields");
@@ -26,8 +21,8 @@ class LocationsControllers {
 
   getAll = async (req, res) => {
     const { locPath } = req.params;
-
     const locations = await locationsModel.find({ region: locPath });
+
     if (!locations) {
       res.status(400);
       throw new Error("Unable to fetch the data");
@@ -53,6 +48,7 @@ class LocationsControllers {
 
     results.results = locations.slice(startIndex, endIndex);
     res.paginatedResults = results;
+
     res.status(201).json({
       code: 200,
       message: "Successful success",
