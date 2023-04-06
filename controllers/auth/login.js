@@ -19,17 +19,17 @@ const login = async (req, res) => {
     throw new Unauthorized(`User is not verified`);
   }
 
-   const payload = { id: user.id };
-   const token = jwt.sign(payload, SECRET_KEY);
+  const payload = { id: user.id };
+  const token = jwt.sign(payload, SECRET_KEY);
 
-   user.accessToken = token;
+  user.accessToken = token;
+  req.session.userId = user.id;
+  const updated = await user.save();
+  if (!updated) {
+    res.status(400);
+    throw new Error("Unable create user");
+  }
 
-   const updated = await user.save();
-   if (!updated) {
-     res.status(400);
-     throw new Error("Unable create user");
-   }
-  
   const { _id, name, accessToken } = user;
   res.json({
     status: "success",
@@ -38,9 +38,8 @@ const login = async (req, res) => {
       id: _id,
       email: user.email,
       name,
-      
+
       accessToken,
-     
     },
   });
 };
