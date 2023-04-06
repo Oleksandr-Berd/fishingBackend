@@ -31,10 +31,9 @@ app.use("/regions", locationsRouter);
 app.use("/", regionsRouter);
 
 app.use("/auth", authRouter);
-app.get("/auth/me", (req, res) => {
-    console.log(req.session);
-  const userId = req.session.userId;
-  // use userId to fetch user data or render page
-});
+// app.get("/auth/me", (req, res) => {
+//     console.log(req.session);
+//   const userId = req.session.userId;
+// });
 
 module.exports = app;
