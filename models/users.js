@@ -11,7 +11,7 @@ const userSchema = Schema(
       required: [true, "Email is required"],
       unique: true,
     },
-    login: {
+    name: {
       type: String,
     },
     subscription: {
@@ -19,7 +19,6 @@ const userSchema = Schema(
       enum: ["starter", "pro", "business"],
       default: "starter",
     },
-    token: String,
     avatarURL: {
       type: String,
     },
@@ -28,7 +27,10 @@ const userSchema = Schema(
       // default: false,
       default: true,
     },
-   
+    accessToken: {
+      type: String,
+      default: null,
+    },
   },
 
   { versionKey: false, timestamps: true }

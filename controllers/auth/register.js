@@ -7,13 +7,12 @@ const jwt = require("jsonwebtoken");
 
 const SECRET_KEY = `${process.env.SECRET_KEY}`;
 const register = async (req, res) => {
-  const { password, email, login } = req.body;
+  const { password, email } = req.body;
   const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
   const user = await userModel.findOne({ email });
   if (user) {
     throw new Conflict(`This email: ${email} in use`);
   }
-  const verificationToken = uuidv4();
   const avatarURL = gravatar.url(email);
 
   
@@ -21,12 +20,12 @@ const register = async (req, res) => {
   const newUser = await userModel.create({
     ...req.body,
     password: passwordHash,
-    email,
+    email
   });
   const payload = { id: newUser.id };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
+  const token = jwt.sign(payload, SECRET_KEY);
 
-    newUser.token = token;
+    newUser.accessToken = token;
 
     const updated = await newUser.save();
     if (!updated) {
@@ -34,17 +33,17 @@ const register = async (req, res) => {
       throw new Error("Unable create user");
     }
 
+   const { _id, name, accessToken,  } =
+     newUser; 
+  
   res.status(201).json({
     status: "success",
     code: 201,
-    data: {
-      user: {
-        login,
-        email,
-        avatarURL,
-        subscription: "starter",
-        token,
-      },
+    user: {
+      id: _id,
+      email: newUser.email,
+      name,
+      accessToken,
     },
   });
 };

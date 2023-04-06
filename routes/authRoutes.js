@@ -15,4 +15,6 @@ routerAuth.post("/login", userLoginValidation, ctrl.login);
 
 routerAuth.get("/logout", auth, ctrl.logout);
 
+routerAuth.get("/me", auth);
+
 module.exports = routerAuth;
