@@ -10,7 +10,14 @@ let regionsImageArray = [];
 
 class regionsController {
   getAll = async (req, res) => {
-    const region = await regionsModel.find({});
+    const { query } = req.query
+    let region = {}
+    if (query) {
+      region = await regionsModel.find({ locPath: query });
+    } else {
+      region = await regionsModel.find({});
+    }
+    // const region = await regionsModel.find({});
     if (!region) {
       res.status(400);
       throw new Error("Unable to fetch the data");
