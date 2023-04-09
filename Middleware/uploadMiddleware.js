@@ -4,9 +4,17 @@ const multer = require("multer");
 const path = require("path");
 const pathToEnv = path.join(__dirname, "..", "config", ".env");
 const dotenv = require("dotenv");
+const { log } = require("console");
 dotenv.config({ path: pathToEnv });
 
-// require("colors");
+// const storage = multer.memoryStorage();
+// const upload = multer({
+//   storage,
+//   limits: {
+//     files: 5, // allow up to 5 files
+//     fileSize: 5 * 1024 * 1024, // 5 MB (max file size)
+//   },
+// });
 
 cloudinary.config({
   cloud_name: process.env.CLDNRY_CLOUD_NAME,
@@ -17,22 +25,16 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   folder: "regions",
+  limits: {
+    files: 50, // allow up to 5 files
+  },
   allowedFormats: ["jpg", "png", "jpeg"],
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
 });
 
-// const tempDir = path.join(__dirname, "../", "temp");
 
-// const multerConfig = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, tempDir);
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, file.originalname);
-//   },
-// });
 
 const uploadCloud = multer({ storage });
 module.exports = uploadCloud;

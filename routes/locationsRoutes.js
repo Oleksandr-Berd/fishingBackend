@@ -29,8 +29,9 @@ locationsRouter.delete(
 );
 
 locationsRouter.post(
-  "/uploadImage/:locPath/:id", auth,
-  uploadCloud.single("image"),
+  "/uploadImage/:locPath/:id",
+  auth,
+  uploadCloud.array("images", 50),
   LocationsControllers.addImage
 );
 

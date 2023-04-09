@@ -123,12 +123,11 @@ class LocationsControllers {
   addImage = async (req, res) => {
     const { id } = req.params;
     const image = req.body;
-    const data = !!req.file
-      ? { imageURL: req.file.path, ...image }
-      : { id, ...image };
 
+    const data = req.files.map(el => el.path)
+    
     const locationImage = await locationsModel.findByIdAndUpdate(id, {
-      picture: data.imageURL,
+      picture: data,
     });
     if (!locationImage) {
       res.status(400);
