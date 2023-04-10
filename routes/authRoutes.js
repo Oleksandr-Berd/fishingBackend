@@ -1,7 +1,8 @@
 const express = require("express");
 
 const routerAuth = express.Router();
-const {googleAuth} = require("../controllers/auth/googleAuth")
+const { googleAuth } = require("../controllers/auth/googleAuth")
+const refresh = require("../controllers/auth/refresh")
 const { register, login, logout } = require("../controllers/auth/index");
 const {
   userRegisterValidation,

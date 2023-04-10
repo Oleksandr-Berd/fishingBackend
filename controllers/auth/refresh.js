@@ -1,11 +1,13 @@
-// const { Unauthorized } = require("http-errors");
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
+const { Unauthorized } = require("http-errors");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-// const { userModel } = require("../../models/index");
-// const SECRET_KEY = `${process.env.SECRET_KEY}`;
+const { userModel } = require("../../models/index");
+const SECRET_KEY = `${process.env.SECRET_KEY}`;
 
-// const refresh = async (req, res) => {
+const refresh = async (req, res) => {
+
+    console.log(req.headers);
 //   const user = await userModel.findOne({ email });
 //   if (!user) {
 //     throw new Unauthorized(`Email ${email} is wrong`);
@@ -30,17 +32,10 @@
 //   }
 
 //   const { _id, name, accessToken } = user;
-//   res.json({
-//     status: "success",
-//     code: 200,
-//     user: {
-//       id: _id,
-//       email: user.email,
-//       name,
+  res.json({
+    status: "success",
+    code: 200,
+  });
+};
 
-//       accessToken,
-//     },
-//   });
-// };
-
-// module.exports = login;
+module.exports = refresh;
